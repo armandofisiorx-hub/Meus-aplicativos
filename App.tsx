@@ -4,7 +4,7 @@ import { RecordList } from './components/RecordList';
 import { PrintLayout } from './components/PrintLayout';
 import { PhysioRecord } from './types';
 import { getRecords, saveRecords } from './services/storageService';
-import { DownloadIcon, PrinterIcon, TrashIcon, FileTextIcon } from './components/Icons';
+import { DownloadIcon, PrinterIcon, FileTextIcon } from './components/Icons';
 import { Logo } from './components/Logo';
 
 export default function App() {
@@ -53,13 +53,6 @@ export default function App() {
     if (window.confirm('Confirma exclusão deste prontuário?')) {
       setRecords(prev => prev.filter(r => r.id !== id));
       if (editingId === id) setEditingId(null);
-    }
-  };
-
-  const handleClearAll = () => {
-    if (window.confirm('ATENÇÃO: Isso apagará TODOS os registros salvos. Continuar?')) {
-      setRecords([]);
-      setEditingId(null);
     }
   };
 
@@ -115,7 +108,14 @@ export default function App() {
 
   const filteredRecords = useMemo(() => {
     return records.filter(r => {
-      if (filter === 'today') return r.date === new Date().toISOString().slice(0, 10);
+      if (filter === 'today') {
+        const d = new Date();
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        const todayStr = `${year}-${month}-${day}`;
+        return r.date === todayStr;
+      }
       return true;
     }).filter(r => {
       if (!search) return true;
@@ -200,12 +200,6 @@ export default function App() {
               <button onClick={() => setShowPrintPreview(true)} className="p-2 bg-white border border-slate-300 text-slate-600 rounded-lg hover:bg-slate-50" title="Imprimir (Visualização)">
                 <PrinterIcon />
               </button>
-              
-              {records.length > 0 && (
-                <button onClick={handleClearAll} className="p-2 bg-white border border-red-200 text-red-600 rounded-lg hover:bg-red-50" title="Apagar tudo">
-                  <TrashIcon />
-                </button>
-              )}
             </div>
           </div>
 
