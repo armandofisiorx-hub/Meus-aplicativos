@@ -73,19 +73,34 @@ export const PhysioForm: React.FC<PhysioFormProps> = ({ editingRecord, onSave, o
 
         {/* Subjetivo */}
         <SectionTitle title="Avaliação Neurológica & Geral" />
-        <Select 
+        <Input 
           label="Nível de Consciência" 
           name="consciousness" 
+          list="consciousness-options"
           value={form.consciousness} 
           onChange={handleChange} 
-          options={['--', 'Alerta', 'Responsivo', 'Sonolento', 'Não responsivo', 'Sedado (RASS -5/-4)']} 
+          placeholder="Selecione ou digite..."
         />
+        <datalist id="consciousness-options">
+          <option value="Alerta" />
+          <option value="Responsivo" />
+          <option value="Sonolento" />
+          <option value="Não responsivo" />
+          <option value="RASS -5" />
+          <option value="RASS -4" />
+          <option value="RASS -3" />
+          <option value="RASS -2" />
+          <option value="RASS -1" />
+          <option value="RASS 0" />
+          <option value="RASS +1" />
+        </datalist>
+
         <Select 
           label="Colaboração" 
           name="collaboration" 
           value={form.collaboration} 
           onChange={handleChange} 
-          options={['--', 'Boa', 'Parcial', 'Ausente']} 
+          options={['--', 'Boa', 'Parcial', 'Ausente', 'Nada colaborativo']} 
         />
         <Select 
           label="Decúbito Encontrado" 
@@ -99,7 +114,7 @@ export const PhysioForm: React.FC<PhysioFormProps> = ({ editingRecord, onSave, o
           name="pain_score" 
           value={form.pain_score} 
           onChange={handleChange} 
-          options={['0 - Sem Dor', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10 - Pior dor possível']} 
+          options={['--', 'Não avaliado', '0 - Sem Dor', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10 - Pior dor possível']} 
         />
 
         {/* Sinais Vitais & Cardio */}
@@ -286,6 +301,14 @@ export const PhysioForm: React.FC<PhysioFormProps> = ({ editingRecord, onSave, o
             '10 - Marcha independente (s/ auxílio)'
           ]} 
         />
+        
+        <div className="md:col-span-4 mt-2">
+          <p className="text-xs text-slate-500 bg-slate-50 p-2 rounded border border-slate-200">
+            <strong>Legenda:</strong> 
+            <span className="ml-2"><strong>IMS:</strong> Escala de Mobilidade em UTI (0-10)</span>
+            <span className="ml-2">| <strong>MRC:</strong> Medical Research Council Sum Score (0-60)</span>
+          </p>
+        </div>
 
         {/* Condutas */}
         <SectionTitle title="Plano Terapêutico & Condutas" />
@@ -306,25 +329,30 @@ export const PhysioForm: React.FC<PhysioFormProps> = ({ editingRecord, onSave, o
         
         <Input label="Outras Condutas" name="interventions.other" value={form.interventions.other} onChange={handleChange} colSpan="md:col-span-4" />
         
-        <div className="md:col-span-4">
-          <label className="mb-1 text-xs font-semibold text-slate-600 uppercase tracking-wider">INTERCORRÊNCIAS</label>
-          <textarea 
-            name="evolution" 
-            value={form.evolution} 
-            onChange={handleChange} 
-            rows={3} 
-            className="w-full border border-slate-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
-            placeholder="Descreva as intercorrências ou observações finais..."
-          />
+        <div className="md:col-span-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="mb-1 text-xs font-semibold text-slate-600 uppercase tracking-wider">INTERCORRÊNCIAS</label>
+            <textarea 
+              name="intercurrences" 
+              value={form.intercurrences} 
+              onChange={handleChange} 
+              rows={4} 
+              className="w-full border border-slate-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+              placeholder="Houve alguma intercorrência durante o atendimento?"
+            />
+          </div>
+          <div>
+            <label className="mb-1 text-xs font-semibold text-slate-600 uppercase tracking-wider">EVOLUÇÃO DO PACIENTE</label>
+            <textarea 
+              name="evolution" 
+              value={form.evolution} 
+              onChange={handleChange} 
+              rows={4} 
+              className="w-full border border-slate-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+              placeholder="Descrição da resposta do paciente ao atendimento e evolução geral..."
+            />
+          </div>
         </div>
-
-        <Select 
-          label="Status / Tipo de Intercorrência" 
-          name="intercurrences" 
-          value={form.intercurrences} 
-          onChange={handleChange} 
-          options={['Não houve', 'Sim - Bradicardia', 'Sim - Taquicardia', 'Sim - Dessaturação', 'Sim - Agitação', 'Sim - Fadiga', 'Outra']} 
-        />
 
       </div>
 

@@ -38,6 +38,7 @@ export const PrintLayout: React.FC<PrintLayoutProps> = ({ records, onClose }) =>
         'Boa': 'com boa colaboração',
         'Parcial': 'com colaboração parcial',
         'Ausente': 'sem colaboração ativa',
+        'Nada colaborativo': 'nada colaborativo',
         '--': ''
     };
 
@@ -62,7 +63,9 @@ export const PrintLayout: React.FC<PrintLayoutProps> = ({ records, onClose }) =>
     neuro += `, ${decubitusMap[rec.decubitus] || 'posicionamento não informado'}.`;
     
     // Escala de Dor (EVA)
-    if (rec.pain_score && rec.pain_score !== '0 - Sem Dor') {
+    if (rec.pain_score === 'Não avaliado') {
+         neuro += ` Dor não avaliada.`;
+    } else if (rec.pain_score && rec.pain_score !== '0 - Sem Dor' && rec.pain_score !== '--') {
         neuro += ` Refere algia grau ${rec.pain_score.split(' - ')[0]} na Escala Visual Analógica (EVA).`;
     } else {
         neuro += ` Nega dor (EVA 0).`;
@@ -287,11 +290,20 @@ export const PrintLayout: React.FC<PrintLayoutProps> = ({ records, onClose }) =>
 
                   <div className="space-y-6 px-2">
                     <div>
-                        <h4 className="font-bold text-slate-900 text-xs uppercase border-b border-slate-300 mb-3 pb-1 tracking-wider">EXAME FÍSICO & DADOS CLÍNICOS</h4>
+                        <h4 className="font-bold text-slate-900 text-xs uppercase border-b border-slate-300 mb-3 pb-1 tracking-wider">AVALIAÇÃO DA FISIOTERAPIA</h4>
                         <p className="text-justify text-slate-800 leading-relaxed text-sm">
                             {formatNarrative(rec)}
                         </p>
                     </div>
+                    
+                    {rec.intercurrences && (
+                         <div className="bg-red-50 p-4 rounded-lg border border-red-100">
+                            <h4 className="font-bold text-red-800 text-xs uppercase mb-2 tracking-wider">INTERCORRÊNCIAS</h4>
+                            <p className="text-justify text-red-900 leading-relaxed text-sm whitespace-pre-wrap">
+                                {rec.intercurrences}
+                            </p>
+                        </div>
+                    )}
 
                     <div>
                         <h4 className="font-bold text-slate-900 text-xs uppercase border-b border-slate-300 mb-3 pb-1 tracking-wider">Plano Terapêutico & Condutas</h4>
@@ -301,16 +313,10 @@ export const PrintLayout: React.FC<PrintLayoutProps> = ({ records, onClose }) =>
                     </div>
 
                     <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
-                        <h4 className="font-bold text-slate-900 text-xs uppercase mb-2 tracking-wider">INTERCORRÊNCIAS</h4>
+                        <h4 className="font-bold text-slate-900 text-xs uppercase mb-2 tracking-wider">EVOLUÇÃO DO PACIENTE</h4>
                         <p className="text-justify text-slate-800 leading-relaxed text-sm whitespace-pre-wrap">
-                            {rec.evolution || 'Sem intercorrências descritas.'}
+                            {rec.evolution || 'Sem descrição adicional de evolução.'}
                         </p>
-                        {rec.intercurrences !== 'Não houve' && (
-                             <div className="mt-3 pt-3 border-t border-red-100 flex items-center gap-2 text-red-700">
-                                 <span className="font-bold text-sm">⚠ Status:</span>
-                                 <span className="text-sm">{rec.intercurrences}</span>
-                             </div>
-                        )}
                     </div>
 
                     <div className="mt-12 pt-8 border-t border-slate-300 grid grid-cols-3">

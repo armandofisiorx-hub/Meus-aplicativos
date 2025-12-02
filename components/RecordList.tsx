@@ -43,7 +43,7 @@ export const RecordList: React.FC<RecordListProps> = ({ records, onEdit, onDelet
                 </span>
               )}
 
-              {rec.intercurrences !== 'Não houve' && (
+              {rec.intercurrences && rec.intercurrences.trim() !== '' && (
                 <span className="bg-red-50 text-red-700 text-xs font-bold px-2 py-1 rounded border border-red-100">
                   Intercorrência
                 </span>

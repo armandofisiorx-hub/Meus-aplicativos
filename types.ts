@@ -153,6 +153,6 @@ export const EMPTY_RECORD: Omit<PhysioRecord, 'id'> & { id: string | null } = {
     orientation: false,
     other: ''
   },
-  intercurrences: 'Não houve',
+  intercurrences: '',
   evolution: ''
 };
