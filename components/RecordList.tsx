@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { PhysioRecord } from '../types';
 import { EditIcon, TrashIcon, FileTextIcon } from './Icons';
@@ -25,11 +26,23 @@ export const RecordList: React.FC<RecordListProps> = ({ records, onEdit, onDelet
       {records.map((rec) => (
         <div key={rec.id} className="bg-white rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow p-5 flex flex-col md:flex-row gap-4 justify-between items-start group">
           <div className="flex-1">
-            <div className="flex items-center gap-3 mb-2">
+            <div className="flex flex-wrap items-center gap-2 mb-2">
               <span className="bg-primary-50 text-primary-700 text-xs font-bold px-2.5 py-1 rounded border border-primary-100 flex items-center gap-1">
                 <FileTextIcon /> {rec.date.split('-').reverse().join('/')} às {rec.time}
               </span>
-              <span className="text-slate-500 text-sm">ID: <span className="font-mono">{rec.id?.slice(-6)}</span></span>
+              
+              {(rec.breathing.includes('Ventilação Mecânica') || rec.breathing.includes('VNI')) && (
+                <span className="bg-blue-50 text-blue-700 text-xs font-bold px-2 py-1 rounded border border-blue-100">
+                  {rec.breathing.includes('VNI') ? 'VNI' : 'VM'}
+                </span>
+              )}
+
+              {rec.gas_result && (
+                <span className="bg-emerald-50 text-emerald-700 text-xs font-bold px-2 py-1 rounded border border-emerald-100">
+                  Gasometria
+                </span>
+              )}
+
               {rec.intercurrences !== 'Não houve' && (
                 <span className="bg-red-50 text-red-700 text-xs font-bold px-2 py-1 rounded border border-red-100">
                   Intercorrência
@@ -40,8 +53,14 @@ export const RecordList: React.FC<RecordListProps> = ({ records, onEdit, onDelet
             <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-slate-700 mb-3">
               <p><strong className="text-slate-900">Profissional:</strong> {rec.professional}</p>
               <p><strong className="text-slate-900">Leito:</strong> {rec.ward}</p>
-              <p><strong className="text-slate-900">O₂:</strong> {rec.oxygen_device} {rec.flow ? `(${rec.flow} L/min)` : ''}</p>
-              <p><strong className="text-slate-900">SpO₂:</strong> {rec.spo2 || '-'}%</p>
+              <p><strong className="text-slate-900">Suporte:</strong> {rec.breathing} {rec.oxygen_device ? `(${rec.oxygen_device})` : ''}</p>
+            </div>
+
+            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500 mb-3 font-mono bg-slate-50 p-2 rounded">
+              <span>{rec.spo2 ? `SpO₂: ${rec.spo2}%` : 'SpO₂: --'}</span>
+              <span>{rec.respiratory_rate ? `FR: ${rec.respiratory_rate}ipm` : 'FR: --'}</span>
+              <span>{rec.heart_rate ? `FC: ${rec.heart_rate}bpm` : 'FC: --'}</span>
+              <span>{rec.blood_pressure ? `PA: ${rec.blood_pressure}` : 'PA: --'}</span>
             </div>
 
             <div className="text-slate-600 text-sm bg-slate-50 p-3 rounded border border-slate-100">

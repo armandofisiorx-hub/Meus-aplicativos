@@ -146,7 +146,7 @@ export default function App() {
           <div className="mb-4 md:mb-0">
             <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
               <Logo className="w-10 h-10 text-white" />
-              PhysioFlow
+              EVOLUÇÃO ELETRONICA v3
             </h1>
             <p className="text-slate-400 mt-1 text-sm">Prontuário Eletrônico de Fisioterapia</p>
           </div>
