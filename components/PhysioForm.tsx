@@ -310,6 +310,19 @@ export const PhysioForm: React.FC<PhysioFormProps> = ({ editingRecord, onSave, o
           </p>
         </div>
 
+        {/* Exames Complementares */}
+        <SectionTitle title="Exames Complementares" />
+        <div className="md:col-span-4">
+          <textarea 
+            name="complementary_exams" 
+            value={form.complementary_exams} 
+            onChange={handleChange} 
+            rows={3} 
+            className="w-full border border-slate-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+            placeholder="Descreva resultados de exames de imagem, laboratoriais ou outros exames relevantes..."
+          />
+        </div>
+
         {/* Condutas */}
         <SectionTitle title="Plano Terapêutico & Condutas" />
         <div className="md:col-span-4">

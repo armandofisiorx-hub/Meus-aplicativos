@@ -78,6 +78,7 @@ export interface PhysioRecord {
   force_reason: string;
   ims_score: string;
   mrc_score: string; // Nova: MRC Sum Score
+  complementary_exams: string; // Nova: Exames Complementares
   // Plano e Intercorrências
   interventions: Interventions;
   intercurrences: string;
@@ -140,6 +141,7 @@ export const EMPTY_RECORD: Omit<PhysioRecord, 'id'> & { id: string | null } = {
   force_reason: '',
   ims_score: '--',
   mrc_score: '',
+  complementary_exams: '',
   interventions: {
     monitor: false,
     oxygen_adjust: false,

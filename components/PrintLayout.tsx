@@ -295,6 +295,15 @@ export const PrintLayout: React.FC<PrintLayoutProps> = ({ records, onClose }) =>
                             {formatNarrative(rec)}
                         </p>
                     </div>
+
+                    {rec.complementary_exams && (
+                         <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                            <h4 className="font-bold text-slate-900 text-xs uppercase mb-2 tracking-wider">EXAMES COMPLEMENTARES</h4>
+                            <p className="text-justify text-slate-800 leading-relaxed text-sm whitespace-pre-wrap">
+                                {rec.complementary_exams}
+                            </p>
+                        </div>
+                    )}
                     
                     {rec.intercurrences && (
                          <div className="bg-red-50 p-4 rounded-lg border border-red-100">

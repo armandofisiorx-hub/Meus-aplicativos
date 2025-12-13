@@ -43,6 +43,12 @@ export const RecordList: React.FC<RecordListProps> = ({ records, onEdit, onDelet
                 </span>
               )}
 
+              {rec.complementary_exams && rec.complementary_exams.trim() !== '' && (
+                <span className="bg-purple-50 text-purple-700 text-xs font-bold px-2 py-1 rounded border border-purple-100">
+                  Exames
+                </span>
+              )}
+
               {rec.intercurrences && rec.intercurrences.trim() !== '' && (
                 <span className="bg-red-50 text-red-700 text-xs font-bold px-2 py-1 rounded border border-red-100">
                   Intercorrência
